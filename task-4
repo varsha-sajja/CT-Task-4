@@ -1,0 +1,165 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "id": "671d4ad3-7030-409f-924d-5755869de40a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: transformers in c:\\users\\prasa\\anaconda3\\lib\\site-packages (4.51.3)\n",
+      "Requirement already satisfied: filelock in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (3.13.1)\n",
+      "Requirement already satisfied: huggingface-hub<1.0,>=0.30.0 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (0.30.2)\n",
+      "Requirement already satisfied: numpy>=1.17 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (1.26.4)\n",
+      "Requirement already satisfied: packaging>=20.0 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (23.2)\n",
+      "Requirement already satisfied: pyyaml>=5.1 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (6.0.1)\n",
+      "Requirement already satisfied: regex!=2019.12.17 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (2023.10.3)\n",
+      "Requirement already satisfied: requests in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (2.32.2)\n",
+      "Requirement already satisfied: tokenizers<0.22,>=0.21 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (0.21.1)\n",
+      "Requirement already satisfied: safetensors>=0.4.3 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (0.5.3)\n",
+      "Requirement already satisfied: tqdm>=4.27 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from transformers) (4.66.4)\n",
+      "Requirement already satisfied: fsspec>=2023.5.0 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface-hub<1.0,>=0.30.0->transformers) (2024.3.1)\n",
+      "Requirement already satisfied: typing-extensions>=3.7.4.3 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface-hub<1.0,>=0.30.0->transformers) (4.11.0)\n",
+      "Requirement already satisfied: colorama in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from tqdm>=4.27->transformers) (0.4.6)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->transformers) (2.0.4)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->transformers) (3.7)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->transformers) (2.2.2)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->transformers) (2025.1.31)\n"
+     ]
+    }
+   ],
+   "source": [
+    "!pip install transformers"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "id": "9501c117-59b7-4bba-8ab8-5b05eb50548c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from transformers import pipeline, set_seed"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "d2c8dff7-0c9a-495e-bac2-e3c9cdcd08cb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Requirement already satisfied: huggingface_hub[hf_xet] in c:\\users\\prasa\\anaconda3\\lib\\site-packages (0.30.2)\n",
+      "Requirement already satisfied: filelock in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (3.13.1)\n",
+      "Requirement already satisfied: fsspec>=2023.5.0 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (2024.3.1)\n",
+      "Requirement already satisfied: packaging>=20.9 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (23.2)\n",
+      "Requirement already satisfied: pyyaml>=5.1 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (6.0.1)\n",
+      "Requirement already satisfied: requests in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (2.32.2)\n",
+      "Requirement already satisfied: tqdm>=4.42.1 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (4.66.4)\n",
+      "Requirement already satisfied: typing-extensions>=3.7.4.3 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (4.11.0)\n",
+      "Requirement already satisfied: hf-xet>=0.1.4 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from huggingface_hub[hf_xet]) (1.1.0)\n",
+      "Requirement already satisfied: colorama in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from tqdm>=4.42.1->huggingface_hub[hf_xet]) (0.4.6)\n",
+      "Requirement already satisfied: charset-normalizer<4,>=2 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->huggingface_hub[hf_xet]) (2.0.4)\n",
+      "Requirement already satisfied: idna<4,>=2.5 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->huggingface_hub[hf_xet]) (3.7)\n",
+      "Requirement already satisfied: urllib3<3,>=1.21.1 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->huggingface_hub[hf_xet]) (2.2.2)\n",
+      "Requirement already satisfied: certifi>=2017.4.17 in c:\\users\\prasa\\anaconda3\\lib\\site-packages (from requests->huggingface_hub[hf_xet]) (2025.1.31)\n",
+      "Note: you may need to restart the kernel to use updated packages.\n"
+     ]
+    }
+   ],
+   "source": [
+    "pip install huggingface_hub[hf_xet]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "b9e91323-8477-4828-a720-34c131b835cb",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Device set to use cpu\n"
+     ]
+    }
+   ],
+   "source": [
+    "generator = pipeline('text-generation', model='gpt2')\n",
+    "set_seed(42)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "b87ec732-c1ba-4395-be8b-7529dafba7fc",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stderr",
+     "output_type": "stream",
+     "text": [
+      "Setting `pad_token_id` to `eos_token_id`:50256 for open-end generation.\n"
+     ]
+    },
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "The future of artificial intelligence in healthcare is changing in several ways. Although artificial intelligence is still very early, it could become one of the main innovations going forward. Scientists are still trying out new ways to enhance physical activity and enhance cognition. For example, the US Food and Drug Administration (FDA) is working on ways to regulate the production of synthetic cannabinoid compounds in pharmaceuticals, such as THC. While some studies have shown that this treatment allows cannabis users to lose weight, the research has shown that it can lose up to 6 pounds over a five-year period. An idea called SASSAR, which uses an integrated approach based on the principles of neuroendocrine engineering, can help people who suffer from debilitating neurodegenerative conditions to enjoy a safe and healthy lifestyle. The company has also launched its own product called the Zoote® Cardiovascular Control system and Zoote, which will help with blood flow around the heart. This, combined with the promise of high quality healthcare, could bring back the old fashioned \"health care.\" There is a growing sentiment among healthcare professionals that \"the medical care industry is still dying.\" Although there is an increasing effort to upgrade medical technology and reduce dependence on drug companies, healthcare providers still see too much of the health care workforce as a dependency on the pharmaceutical industry. This makes it more challenging to develop new ways to improve the quality of medicine and its health security. For example, healthcare physicians are the leading consumer of synthetic cannabinoids. However, as long as pharmaceutical companies are permitted to profit from their products and have access to FDA approval they can make any claim about being a new product they want, regardless of how well their work is funded, the idea of using pharmaceuticals to achieve its own health security has now died out. This issue is going to change if it comes to the health effects of artificial insemination. As many have stated, an increase in the amount of drugs and drugs with added synthetic cannabinoids in their drugs for treating epilepsy, Parkinson's disease, Huntington's disease, and multiple sclerosis (MS) is going to be a huge factor in the coming up of artificial insemination therapies. If drug companies like Bayer, Amgen, Eli Lilly, and Rethink were to make their decisions in favor of artificial insemination, we could see the return of a situation that has always been a mystery. This is the future of healthcare. If artificial insemination is to live up to its potential, we need to understand the science behind it. So that we can make the right decisions when decisions need to be made, we can't just continue to wait for these discoveries to show up. We must make fundamental changes as we work to bring about the return to our past.\n",
+      "\n",
+      "What's Next?\n",
+      "\n",
+      "There is going to be a few things to focus on with Artificial insemination.\n",
+      "\n",
+      "First of all there are these two questions:\n",
+      "\n",
+      "What will it take to bring out the best in those machines?\n",
+      "\n",
+      "What has been described to you about their effectiveness?\n",
+      "\n",
+      "How would you like to see artificial insemination used to better treat epilepsy, Parkinson's disease, and multiple sclerosis?\n",
+      "\n",
+      "\n",
+      "Many others in the medical industry have said that there is no benefit in artificial insemination. However, some researchers have said that it offers advantages in treating many of the same disorders of the brain as is currently being treated with pharmaceuticals and medicine. Another possibility is that we are not being given the same benefit of our own time as drugs that are being evaluated to keep our health from deteriorating.\n",
+      "\n",
+      "In a nutshell, it seems clear that artificial insemination may be a great way to boost our long-term health if all we see is the pharmaceutical industry's ability to profit from its products. It will be interesting to see if we can achieve those benefits. For now we stand prepared for another day when we see the results of artificial insemination being treated with new compounds that give real-world performance. There are already dozens of studies that have shown that artificial insemination works best when it is given to people with epilepsy or multiple sclerosis. I suspect, even more surprising, if we learn that the efficacy of artificial insemination is much smaller than was seen in previous studies to date, it will be one of the first new developments in medical technology to work with natural and synthetic cannabinoids. As a side note, it is worth mentioning that the efficacy of this technique in treating several similar neurodegenerative diseases is now being reported in multiple countries, so it is not yet clear how well it could work. Even as far as I know that there are no approved studies to date on the potential benefits of artificial insemination, there is still an urgent need for further investigations on this issue. We should definitely be looking at these developments closely and to see what we can come up with. I know that as of now there are still a number of challenges ahead; the\n"
+     ]
+    }
+   ],
+   "source": [
+    "topic = \"The future of artificial intelligence in healthcare\"\n",
+    "generated = generator(topic, max_length=1000, num_return_sequences=2)\n",
+    "print(generated[0]['generated_text'])\n"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.12.3"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
